@@ -85,16 +85,25 @@ namespace lab6_Planner.ViewModels
             ChangeView();
         }
 
-        public void SavePlan( Plans item ) 
+        public void SavePlan(Plans item)
         {
             if (Title != "")
             {
                 if (Edit)
                 {
                     var exitem = PlansByDay[date].Find(i => i.Equals(item));
-                    exitem.Title = Title;
-                    exitem.Description = Description;
+                    if (exitem != null)
+                    {
+                        exitem.Title = Title;
+                        exitem.Description = Description;
+
+                        item.Title = exitem.Title;
+                        item.Description = exitem.Description;
+                        DeletePlan(exitem);
+                        AddNew(date, item);
+                    }
                     Edit = false;
+
                 }
                 else
                 {
